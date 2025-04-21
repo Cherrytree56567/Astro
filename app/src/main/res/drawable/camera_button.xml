@@ -6,20 +6,20 @@
         <shape android:shape="oval">
             <solid android:color="@android:color/transparent" />
             <stroke
-                android:width="8dp"
-                android:color="#FFFFFF" />
+                android:width="2dp"
+                android:color="@color/black" />
         </shape>
     </item>
 
     <!-- Inner circle -->
     <item
         android:id="@+id/inner_circle"
-        android:top="40dp"
-        android:bottom="40dp"
-        android:left="40dp"
-        android:right="40dp">
+        android:top="8dp"
+        android:bottom="8dp"
+        android:left="8dp"
+        android:right="8dp">
         <shape android:shape="oval">
-            <solid android:color="#FFFFFF" />
+            <solid android:color="@color/black" />
         </shape>
     </item>
 

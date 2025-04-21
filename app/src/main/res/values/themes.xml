@@ -1,11 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Astro" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Astro" parent="Theme.Material3.DynamicColors.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="colorPrimary">@android:color/system_accent1_0</item>
-        <item name="colorSecondary">@android:color/system_accent2_0</item>
-        <item name="colorOnPrimary">@android:color/system_accent3_0</item>
     </style>
 
     <style name="Theme.Astro" parent="Base.Theme.Astro" />
