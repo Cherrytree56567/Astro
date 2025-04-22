@@ -1,26 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="48dp"
+    android:height="48dp"
+    android:viewportWidth="100"
+    android:viewportHeight="100">
 
-    <!-- Outer circle (outline) -->
-    <item>
-        <shape android:shape="oval">
-            <solid android:color="@android:color/transparent" />
-            <stroke
-                android:width="3dp"
-                android:color="@color/black" />
-        </shape>
-    </item>
+    <path
+        android:strokeColor="@color/black"
+        android:strokeWidth="4"
+        android:fillColor="@android:color/transparent"
+        android:pathData="M50,5 A45,45 0 1,1 49.9,5" />
 
-    <!-- Inner circle -->
-    <item
-        android:id="@+id/inner_circle"
-        android:top="10dp"
-        android:bottom="10dp"
-        android:left="10dp"
-        android:right="10dp">
-        <shape android:shape="oval">
-            <solid android:color="@color/black" />
-        </shape>
-    </item>
-
-</layer-list>
+    <path
+        android:fillColor="@color/black"
+        android:pathData="M50,15 A35,35 0 1,1 49.9,15Z"/>
+</vector>
