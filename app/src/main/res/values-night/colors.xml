@@ -2,4 +2,5 @@
 <resources>
     <color name="white">#FF000000</color> <!-- Black becomes white -->
     <color name="black">#FFFFFFFF</color>
+    <color name="transparent">#00000000</color>
 </resources>
