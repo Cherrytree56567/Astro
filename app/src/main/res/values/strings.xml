@@ -3,4 +3,6 @@
     <string name="action_settings">Settings</string>
     <string name="rotate_desc">Rotate</string>
     <string name="capture_desc">Capture</string>
+    <string name="astro_photography">Astro Photography</string>
+    <string name="photo">Photo</string>
 </resources>

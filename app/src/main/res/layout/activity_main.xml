@@ -44,17 +44,37 @@
             android:id="@+id/tabScrollBar"
             android:layout_width="match_parent"
             android:layout_height="40dp"
+            android:layout_marginTop="-50dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView">
 
-            <app.ct5.astrocam.discretescrollview.DiscreteScrollView
-                android:layout_width=""
-                android:layout_height=""
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/TabLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="6dp"
+                android:layout_marginEnd="6dp"
+                android:layout_marginBottom="-1dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"
+                app:tabGravity="start"
+                app:tabIndicator="@drawable/tab_selector"
+                app:tabIndicatorColor="?attr/colorPrimary"
+                app:tabIndicatorFullWidth="true"
+                app:tabIndicatorGravity="center"
+                app:tabMode="scrollable"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextColor="@color/black"
+                app:tabUnboundedRipple="false" />
+
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/ViewPager2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
