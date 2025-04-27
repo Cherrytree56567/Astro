@@ -11,6 +11,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val picker = findViewById<HorizontalPicker?>(R.id.mode_picker_view)
-        picker.setValues(arrayOf<String>("Astrophotography", "Photo", "Video", "Portrait"))
+        picker.setValues(arrayOf<String>("Astro", "Photo", "Video", "Portrait"))
     }
 }

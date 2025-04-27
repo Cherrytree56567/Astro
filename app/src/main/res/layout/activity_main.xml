@@ -55,7 +55,7 @@
                 android:padding="8dp"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
-                app:selectedColor="?attr/colorPrimary"
+                app:selectedColor="@color/white"
                 android:textSize="15sp"
                 app:sideItems="2"
                 android:marqueeRepeatLimit="-1"
@@ -65,7 +65,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/tab_selector"/>
+                tools:background="@color/white"/>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
