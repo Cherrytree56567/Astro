@@ -246,98 +246,101 @@ public class HorizontalPicker extends View {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
-    @Override
-    protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+@Override
+protected void onDraw(Canvas canvas) {
+    super.onDraw(canvas);
 
-        int saveCount = canvas.getSaveCount();
-        canvas.save();
+    int saveCount = canvas.getSaveCount();
+    canvas.save();
 
-        int selectedItem = this.selectedItem;
+    if (values != null && values.length > 0) {
+        // Center the first item ("Astro") horizontally
+        float firstItemWidth = textPaint.measureText(values[0].toString());
+        float centerX = (getWidth() - firstItemWidth) / 2;
+        canvas.translate(centerX, 0);
 
-        float itemWithPadding = 0;
+        // 5dp spacing converted to pixels
+        float spacingPx = TypedValue.applyDimension(
+                TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
 
         for (int i = 0; i < values.length; i++) {
-            itemWithPadding += textPaint.measureText(values[i].toString());
-        }
+            int saveCountHeight = canvas.getSaveCount();
+            canvas.save();
 
-        // translate horizontal to center
-        canvas.translate(itemWithPadding, 0);
+            // Prepare layout for current item
+            BoringLayout layout = layouts[i];
+            float x = 0;
 
-        if (values != null) {
-            for (int i = 0; i < values.length; i++) {
-                itemWithPadding = textPaint.measureText(values[i].toString()) + 50;
-
-                // set text color for item
-                textPaint.setColor(getTextColor(i));
-                textPaint.setFakeBoldText(true);
-
-                // get text layout
-                BoringLayout layout = layouts[i];
-
-                int saveCountHeight = canvas.getSaveCount();
-                canvas.save();
-
-                float x = 0;
-
-                float lineWidth = layout.getLineWidth(0);
-                if (lineWidth > itemWidth) {
-                    if (isRtl(values[i])) {
-                        x += (lineWidth - itemWidth) / 2;
-                    } else {
-                        x -= (lineWidth - itemWidth) / 2;
-                    }
-                }
-
-                if (marquee != null && i == selectedItem) {
-                    x += marquee.getScroll();
-                }
-
-                // translate vertically to center
-                canvas.translate(-x, (float) (getHeight() - layout.getHeight()) / 2);
-
-                RectF clipBounds;
-                if (x == 0) {
-                    clipBounds = itemClipBounds;
+            float lineWidth = layout.getLineWidth(0);
+            if (lineWidth > itemWidth) {
+                if (isRtl(values[i])) {
+                    x += (lineWidth - itemWidth) / 2;
                 } else {
-                    clipBounds = itemClipBoundsOffset;
-                    clipBounds.set(itemClipBounds);
-                    clipBounds.offset(x, 0);
+                    x -= (lineWidth - itemWidth) / 2;
                 }
-                if (i == selectedItem) {
-                    canvas.getClipBounds(canvasClipBounds);
-                    background.bottom = canvasClipBounds.bottom;
-                    background.left = canvasClipBounds.left;
-                    background.right = canvasClipBounds.right;
-                    background.top = canvasClipBounds.top;
-
-                    float width = itemClipBounds.width();
-                    float margin = (width - getTextWidth(values[i], textPaint)) / 8;
-                    background.left = itemClipBounds.left + margin;
-                    background.right = itemClipBounds.right - margin;
-                }
-                canvas.clipRect(clipBounds);
-                layout.draw(canvas);
-
-                if (marquee != null && i == selectedItem && marquee.shouldDrawGhost()) {
-                    canvas.translate(marquee.getGhostOffset(), 0);
-                    layout.draw(canvas);
-                }
-
-                // restore vertical translation
-                canvas.restoreToCount(saveCountHeight);
-
-                // translate horizontal for 1 item
-                canvas.translate(itemWithPadding, 0);
             }
+
+            if (marquee != null && i == selectedItem) {
+                x += marquee.getScroll();
+            }
+
+            // Center vertically
+            canvas.translate(-x, (float) (getHeight() - layout.getHeight()) / 2);
+
+            // Handle clipping and background
+            RectF clipBounds;
+            if (x == 0) {
+                clipBounds = itemClipBounds;
+            } else {
+                clipBounds = itemClipBoundsOffset;
+                clipBounds.set(itemClipBounds);
+                clipBounds.offset(x, 0);
+            }
+
+            if (i == selectedItem) {
+                canvas.getClipBounds(canvasClipBounds);
+                background.bottom = canvasClipBounds.bottom;
+                background.left = canvasClipBounds.left;
+                background.right = canvasClipBounds.right;
+                background.top = canvasClipBounds.top;
+
+                float width = itemClipBounds.width();
+                float margin = (width - getTextWidth(values[i], textPaint)) / 8;
+                background.left = itemClipBounds.left + margin;
+                background.right = itemClipBounds.right - margin;
+            }
+
+            canvas.clipRect(clipBounds);
+
+            // Set text paint settings
+            textPaint.setColor(getTextColor(i));
+            textPaint.setFakeBoldText(true);
+
+            // Draw the text
+            layout.draw(canvas);
+
+            // Draw ghost text if needed (for marquee effect)
+            if (marquee != null && i == selectedItem && marquee.shouldDrawGhost()) {
+                canvas.translate(marquee.getGhostOffset(), 0);
+                layout.draw(canvas);
+            }
+
+            // Restore vertical translation
+            canvas.restoreToCount(saveCountHeight);
+
+            // After drawing, move horizontally by (item width + 5dp)
+            float itemWidthCurrent = textPaint.measureText(values[i].toString());
+            canvas.translate(itemWidthCurrent + spacingPx, 0);
         }
-
-        // restore horizontal translation
-        canvas.restoreToCount(saveCount);
-
-        drawEdgeEffect(canvas, leftEdgeEffect, 270);
-        drawEdgeEffect(canvas, rightEdgeEffect, 90);
     }
+
+    // Restore original canvas
+    canvas.restoreToCount(saveCount);
+
+    // Draw edge effects
+    drawEdgeEffect(canvas, leftEdgeEffect, 270);
+    drawEdgeEffect(canvas, rightEdgeEffect, 90);
+}
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private float getTextWidth(CharSequence text, Paint paint) {
