@@ -33,6 +33,9 @@ import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.EdgeEffect;
 import android.widget.OverScroller;
+import android.content.Context;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.text.TextDirectionHeuristicCompat;
@@ -105,6 +108,7 @@ public class HorizontalPicker extends View {
     private float dividerSize = 0;
     private int sideItems = 1;
     private TextDirectionHeuristicCompat textDir;
+    private Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
     public HorizontalPicker(Context context) {
         this(context, null);
@@ -590,6 +594,15 @@ public class HorizontalPicker extends View {
         if (onItemClicked != null) {
 
             post(() -> {
+                if (vibrator != null && vibrator.hasVibrator()) {
+                    // For Android 26 and above (API level 26)
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
+                    } else {
+                        // For older Android versions
+                        vibrator.vibrate(500); // 500 milliseconds vibration
+                    }
+                }
                 onItemClicked.onItemClicked(getSelectedItem());
             });
         }
