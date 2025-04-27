@@ -18,7 +18,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/CaptureButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginBottom="120dp"
@@ -30,42 +30,48 @@
             app:srcCompat="@drawable/camera_button" />
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/RotateButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginStart="24dp"
             android:contentDescription="@string/rotate_desc"
-            app:layout_constraintBottom_toBottomOf="@+id/imageView"
-            app:layout_constraintStart_toEndOf="@+id/imageView"
-            app:layout_constraintTop_toTopOf="@+id/imageView"
+            app:layout_constraintBottom_toBottomOf="@+id/CaptureButton"
+            app:layout_constraintStart_toEndOf="@+id/CaptureButton"
+            app:layout_constraintTop_toTopOf="@+id/CaptureButton"
             app:srcCompat="@drawable/camera_flip" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/tabScrollBar"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_marginTop="-50dp"
+            android:layout_height="60dp"
+            android:layout_marginTop="-60dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            app:layout_constraintTop_toBottomOf="@+id/CaptureButton">
 
             <app.ct5.astrocam.HorizontalPicker
-                android:layout_width="500dp"
-                android:padding="8dp"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                app:selectedColor="@color/white"
-                android:textSize="15sp"
-                app:sideItems="2"
-                android:marqueeRepeatLimit="-1"
                 android:id="@+id/mode_picker_view"
+                android:layout_width="500dp"
+                android:layout_height="wrap_content"
                 android:ellipsize="end"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:marqueeRepeatLimit="-1"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@color/white"/>
+                app:selectedColor="@color/white"
+                app:sideItems="2"
+                tools:background="@color/white" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -108,7 +108,7 @@ public class HorizontalPicker extends View {
     private float dividerSize = 0;
     private int sideItems = 1;
     private TextDirectionHeuristicCompat textDir;
-    private Vibrator vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+    private Vibrator vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
 
     public HorizontalPicker(Context context) {
         this(context, null);
@@ -595,12 +595,11 @@ public class HorizontalPicker extends View {
 
             post(() -> {
                 if (vibrator != null && vibrator.hasVibrator()) {
-                    // For Android 26 and above (API level 26)
+                    // For Android 8 and above (API level 26)
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         vibrator.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE));
                     } else {
-                        // For older Android versions
-                        vibrator.vibrate(500); // 500 milliseconds vibration
+                        vibrator.vibrate(500);
                     }
                 }
                 onItemClicked.onItemClicked(getSelectedItem());
