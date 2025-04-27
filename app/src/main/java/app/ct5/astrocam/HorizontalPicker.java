@@ -27,6 +27,7 @@ import android.text.Layout;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.*;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.animation.DecelerateInterpolator;
@@ -246,101 +247,93 @@ public class HorizontalPicker extends View {
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
-@Override
-protected void onDraw(Canvas canvas) {
-    super.onDraw(canvas);
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
 
-    int saveCount = canvas.getSaveCount();
-    canvas.save();
+        if (values == null || values.length == 0) return;
 
-    if (values != null && values.length > 0) {
-        // Center the first item ("Astro") horizontally
-        float firstItemWidth = textPaint.measureText(values[0].toString());
-        float centerX = (getWidth() - firstItemWidth) / 2;
-        canvas.translate(centerX, 0);
+        int saveCount = canvas.save();
 
-        // 5dp spacing converted to pixels
+        // Calculate 5dp spacing in pixels
         float spacingPx = TypedValue.applyDimension(
-                TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics());
+                TypedValue.COMPLEX_UNIT_DIP, 5, getResources().getDisplayMetrics()
+        );
+
+        // Center the first item horizontally
+        float firstItemWidth = layouts[0].getLineWidth(0);
+        float centerX = (getWidth() - firstItemWidth) / 2f;
+
+        // Precompute absolute X positions for each item
+        float[] itemPositions = new float[values.length];
+        itemPositions[0] = centerX;
+        for (int i = 1; i < values.length; i++) {
+            float previousWidth = layouts[i - 1].getLineWidth(0);
+            itemPositions[i] = itemPositions[i - 1] + previousWidth + spacingPx;
+        }
+
+        canvas.translate(itemPositions[0], 0);
 
         for (int i = 0; i < values.length; i++) {
-            int saveCountHeight = canvas.getSaveCount();
-            canvas.save();
+            int itemSaveCount = canvas.save();
 
-            // Prepare layout for current item
+            // Adjust X if text width > item width
             BoringLayout layout = layouts[i];
-            float x = 0;
-
+            float xOffset = 0f;
             float lineWidth = layout.getLineWidth(0);
+
             if (lineWidth > itemWidth) {
                 if (isRtl(values[i])) {
-                    x += (lineWidth - itemWidth) / 2;
+                    xOffset += (lineWidth - itemWidth) / 2f;
                 } else {
-                    x -= (lineWidth - itemWidth) / 2;
+                    xOffset -= (lineWidth - itemWidth) / 2f;
                 }
             }
 
             if (marquee != null && i == selectedItem) {
-                x += marquee.getScroll();
+                xOffset += marquee.getScroll();
             }
 
             // Center vertically
-            canvas.translate(-x, (float) (getHeight() - layout.getHeight()) / 2);
+            float yOffset = (getHeight() - layout.getHeight()) / 2f;
+            //canvas.translate(-xOffset, yOffset);
 
-            // Handle clipping and background
-            RectF clipBounds;
-            if (x == 0) {
-                clipBounds = itemClipBounds;
-            } else {
-                clipBounds = itemClipBoundsOffset;
+            // Clip bounds (optional, same logic as you had)
+            RectF clipBounds = (xOffset == 0) ? itemClipBounds : itemClipBoundsOffset;
+            if (clipBounds != itemClipBounds) {
                 clipBounds.set(itemClipBounds);
-                clipBounds.offset(x, 0);
+                clipBounds.offset(xOffset, 0);
             }
 
             if (i == selectedItem) {
                 canvas.getClipBounds(canvasClipBounds);
-                background.bottom = canvasClipBounds.bottom;
                 background.left = canvasClipBounds.left;
                 background.right = canvasClipBounds.right;
                 background.top = canvasClipBounds.top;
+                background.bottom = canvasClipBounds.bottom;
 
-                float width = itemClipBounds.width();
-                float margin = (width - getTextWidth(values[i], textPaint)) / 8;
+                float margin = getTextWidth(values[i], textPaint);
                 background.left = itemClipBounds.left + margin;
                 background.right = itemClipBounds.right - margin;
             }
 
-            canvas.clipRect(clipBounds);
-
-            // Set text paint settings
+            // Set text style
             textPaint.setColor(getTextColor(i));
             textPaint.setFakeBoldText(true);
 
             // Draw the text
             layout.draw(canvas);
 
-            // Draw ghost text if needed (for marquee effect)
-            if (marquee != null && i == selectedItem && marquee.shouldDrawGhost()) {
-                canvas.translate(marquee.getGhostOffset(), 0);
-                layout.draw(canvas);
-            }
-
-            // Restore vertical translation
-            canvas.restoreToCount(saveCountHeight);
-
-            // After drawing, move horizontally by (item width + 5dp)
-            float itemWidthCurrent = textPaint.measureText(values[i].toString());
-            canvas.translate(itemWidthCurrent + spacingPx, 0);
+            canvas.translate(layouts[0].getLineWidth(0), 0);
         }
+
+        // Restore the full canvas
+        canvas.restoreToCount(saveCount);
+
+        // Draw edge effects
+        drawEdgeEffect(canvas, leftEdgeEffect, 270);
+        drawEdgeEffect(canvas, rightEdgeEffect, 90);
     }
-
-    // Restore original canvas
-    canvas.restoreToCount(saveCount);
-
-    // Draw edge effects
-    drawEdgeEffect(canvas, leftEdgeEffect, 270);
-    drawEdgeEffect(canvas, rightEdgeEffect, 90);
-}
 
     @RequiresApi(api = Build.VERSION_CODES.Q)
     private float getTextWidth(CharSequence text, Paint paint) {
@@ -867,19 +860,23 @@ protected void onDraw(Canvas canvas) {
     }
 
     private void calculateItemSize(int w, int h) {
+        // 1) Compute the width of the longest value:
+        itemWidth = 0;
+        if (values != null) {
+            for (CharSequence v : values) {
+                // getTextWidth() measures the text’s real pixel width
+                itemWidth = Math.max(itemWidth, (int) getTextWidth(v, textPaint));
+            }
+        }
 
-        int items = sideItems * 2 + 1;
-        int totalPadding = ((int) dividerSize * (items - 1));
-        itemWidth = (w - totalPadding) / items;
-
+        // 2) Set up your clip bounds exactly to that width & the view’s height:
         itemClipBounds = new RectF(0, 0, itemWidth, h);
         itemClipBoundsOffset = new RectF(itemClipBounds);
 
+        // 3) Reset to the currently-selected item, rebuild the layouts & restart marquee if needed:
         scrollToItem(selectedItem);
-
         remakeLayout();
         startMarqueeIfNeeded();
-
     }
 
     private void onScrollerFinishedX(OverScroller scroller) {
