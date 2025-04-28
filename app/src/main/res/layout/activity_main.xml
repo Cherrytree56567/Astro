@@ -5,7 +5,7 @@
     android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/black">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/bottomToolBar"
@@ -56,15 +56,15 @@
                 android:ellipsize="end"
                 android:marqueeRepeatLimit="-1"
                 android:padding="8dp"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:selectedColor="@color/white"
+                app:selectedColor="@color/black"
                 app:sideItems="2"
-                tools:background="@color/white" />
+                tools:background="@color/black" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -88,7 +88,7 @@
             app:tabMode="fixed"
             app:tabPaddingEnd="4dp"
             app:tabPaddingStart="4dp"
-            app:tabSelectedTextColor="@color/white">
+            app:tabSelectedTextColor="@color/black">
 
             <com.google.android.material.tabs.TabItem
                 android:layout_width="wrap_content"
