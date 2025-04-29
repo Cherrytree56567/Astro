@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         val picker = findViewById<HorizontalPicker?>(R.id.mode_picker_view)
-        picker.setValues(arrayOf<String>("Astro", "Pro"))
+        picker.setValues(arrayOf<String>(R.string.astro.toString(), R.string.photo.toString()))
 
         val tabLayout: TabLayout = findViewById(R.id.tabLayout)
 

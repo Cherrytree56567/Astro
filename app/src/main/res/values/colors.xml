@@ -6,4 +6,5 @@
     <color name="capture_color">@color/white</color>
     <color name="md_grey_800">#424242</color>
     <color name="md_grey_900">#212121</color>
+    <color name="md_grey_1000">#101010</color>
 </resources>
