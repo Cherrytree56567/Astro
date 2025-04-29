@@ -149,7 +149,6 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/shutterButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.545"
             app:srcCompat="@drawable/iso_icon" />
 
         <ImageView
@@ -163,7 +162,19 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/isoButton"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.545"
             app:srcCompat="@drawable/focus_icon" />
+
+        <ImageView
+            android:id="@+id/exposureButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="7dp"
+            android:layout_marginBottom="7dp"
+            android:contentDescription="@string/capture_desc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/focusButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/exposure_icon" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,4 +9,5 @@
     <string name="shutter_desc">Shutter Speed</string>
     <string name="iso_desc">ISO</string>
     <string name="focus_desc">Focus</string>
+    <string name="exposure_desc">Exposure</string>
 </resources>
