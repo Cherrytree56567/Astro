@@ -119,62 +119,71 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topToolbar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_height="80dp"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/shutterButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:contentDescription="@string/shutter_desc"
+            app:srcCompat="@drawable/shutter_icon"
+
+            app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/shutter_icon" />
+            app:layout_constraintEnd_toStartOf="@+id/isoButton"
+            app:layout_constraintHorizontal_chainStyle="spread" />
 
         <ImageView
             android:id="@+id/isoButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:contentDescription="@string/iso_desc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/shutterButton"
+            app:srcCompat="@drawable/iso_icon"
+
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/iso_icon" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/shutterButton"
+            app:layout_constraintEnd_toStartOf="@+id/focusButton" />
 
         <ImageView
             android:id="@+id/focusButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:contentDescription="@string/focus_desc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/isoButton"
+            app:srcCompat="@drawable/focus_icon"
+
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/focus_icon" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/isoButton"
+            app:layout_constraintEnd_toStartOf="@+id/exposureButton" />
 
         <ImageView
             android:id="@+id/exposureButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="30dp"
-            android:layout_marginTop="7dp"
-            android:layout_marginBottom="7dp"
-            android:contentDescription="@string/capture_desc"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/focusButton"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:contentDescription="@string/exposure_desc"
+            app:srcCompat="@drawable/exposure_icon"
+
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/exposure_icon" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toEndOf="@id/focusButton"
+            app:layout_constraintEnd_toStartOf="@+id/formatButton" />
+
+        <ImageView
+            android:id="@+id/formatButton"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:contentDescription="@string/format_desc"
+            app:layout_constraintBottom_toBottomOf="parent"
+
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/exposureButton"
+            app:layout_constraintTop_toTopOf="parent"
+            app:srcCompat="@drawable/raw_icon" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
