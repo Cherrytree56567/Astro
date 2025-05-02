@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/black">
 
-    <TextureView
+    <androidx.camera.view.PreviewView
         android:id="@+id/cameraPreview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <ImageView
-            android:id="@+id/CaptureButton"
+            android:id="@+id/captureButton"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_marginBottom="120dp"
@@ -42,9 +42,9 @@
             android:layout_height="80dp"
             android:layout_marginStart="24dp"
             android:contentDescription="@string/rotate_desc"
-            app:layout_constraintBottom_toBottomOf="@+id/CaptureButton"
-            app:layout_constraintStart_toEndOf="@+id/CaptureButton"
-            app:layout_constraintTop_toTopOf="@+id/CaptureButton"
+            app:layout_constraintBottom_toBottomOf="@+id/captureButton"
+            app:layout_constraintStart_toEndOf="@+id/captureButton"
+            app:layout_constraintTop_toTopOf="@+id/captureButton"
             app:srcCompat="@drawable/camera_flip" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -55,7 +55,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/CaptureButton">
+            app:layout_constraintTop_toBottomOf="@+id/captureButton">
 
             <app.ct5.astrocam.HorizontalPicker
                 android:id="@+id/mode_picker_view"
