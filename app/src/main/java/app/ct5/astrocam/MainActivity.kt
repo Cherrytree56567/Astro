@@ -1,9 +1,12 @@
 package app.ct5.astrocam
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
+import android.view.MotionEvent
 import android.view.WindowManager
 import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
@@ -12,9 +15,15 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import com.google.android.material.tabs.TabLayout
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
 import com.google.common.util.concurrent.ListenableFuture
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
+fun getTimestamp(): String {
+    val now = LocalDateTime.now()
+    val formatter = DateTimeFormatter.ofPattern("yyyy_MM_dd_HHmm")
+    return "ASTRO_" + now.format(formatter)
+}
 
 class MainActivity : AppCompatActivity() {
     lateinit var previewView: PreviewView
@@ -23,9 +32,11 @@ class MainActivity : AppCompatActivity() {
 
     val imageResources = arrayOf(
         R.drawable.raw_icon,
-        R.drawable.jpg_icon
+        R.drawable.jpg_icon,
+        R.drawable.all_icon
     )
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -61,17 +72,28 @@ class MainActivity : AppCompatActivity() {
         var currentImageIndex = 0
         val formatButton: ImageView = findViewById(R.id.formatButton)
         formatButton.setOnClickListener {
-
             currentImageIndex = (currentImageIndex + 1) % imageResources.size
             formatButton.setImageResource(imageResources[currentImageIndex])
-            if (currentImageIndex == 0) {
-            } else if (currentImageIndex == 1) {
-            }
         }
 
-        captureButton.setOnClickListener {
-            if (currentImageIndex == 0) {
-            } else if (currentImageIndex == 1) {
+        captureButton.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN -> {
+                    captureButton.setImageResource(R.drawable.camera_button_held)
+                    true
+                }
+
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    captureButton.setImageResource(R.drawable.camera_button)
+                    if (currentImageIndex == 0) {
+                        saveRAW(getTimestamp() + ".dng")
+                    } else if (currentImageIndex == 1) {
+                        saveJPG(getTimestamp() + ".jpg")
+                    }
+                    true
+                }
+
+                else -> false
             }
         }
     }
